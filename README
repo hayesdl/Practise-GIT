@@ -1,0 +1,49 @@
+Public Class Form1
+
+
+    Public obj As New ClassWithEvent
+
+
+    Public Class ClassWithEvent
+        Public Event ReportProgress(ByVal PercentDone As Integer)
+
+        Public Sub DoSomething()
+            Dim x As Integer, y As Integer
+
+            For x = 0 To 10
+                RaiseEvent ReportProgress(x * 10)
+                For y = 1 To 50000
+
+                    Application.DoEvents()
+                Next
+            Next
+        End Sub
+
+    End Class
+
+    Private Sub obj_ReportProgress(ByVal PercentDone As Integer)
+        TextBox1.Text = PercentDone
+    End Sub
+
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        AddHandler obj.ReportProgress, AddressOf Me.obj_ReportProgress
+        obj.DoSomething()
+
+        Dim stringtest As Double = "3.2"
+        Dim result As Double
+        Dim succeed As Boolean
+
+        succeed = Double.TryParse(stringtest, result)
+        If succeed Then
+            MessageBox.Show("Parse worked! Value id: " + result.ToString())
+        Else
+            MessageBox.Show("Parse did not work")
+        End If
+
+
+    End Sub
+
+    Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        MessageBox.Show("Pressing a button")
+    End sub
